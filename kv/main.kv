@@ -1,0 +1,75 @@
+BoxLayout:
+    orientation: 'horizontal'
+
+    # Vertical navbar
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_x: None
+        width: "150dp"
+        spacing: "10dp"
+        padding: "10dp"
+
+        Button:
+            text: "Home"
+            on_release: app.root.current = 'home'
+        Button:
+            text: "Voting"
+            on_release: app.root.current = 'voting'
+        Button:
+            text: "Albums"
+            on_release: app.root.current = 'albums'
+        Button:
+            text: "Statistics"
+            on_release: app.root.current = 'statistics'
+        Button:
+            text: "Upload"
+            on_release: app.root.current = 'upload'
+        Button:
+            text: "Settings"
+            on_release: app.root.current = 'settings'
+
+    # Main content area
+    ScreenManager:
+        id: screen_manager
+        HomeScreen:
+        VotingScreen:
+        AlbumsScreen:
+        StatisticsScreen:
+        UploadScreen:
+        SettingsScreen:
+
+<HomeScreen>:
+    name: 'home'
+    BoxLayout:
+        Label:
+            text: "Home Screen"
+
+<VotingScreen>:
+    name: 'voting'
+    BoxLayout:
+        Label:
+            text: "Voting Screen"
+
+<AlbumsScreen>:
+    name: 'albums'
+    BoxLayout:
+        Label:
+            text: "Albums Screen"
+
+<StatisticsScreen>:
+    name: 'statistics'
+    BoxLayout:
+        Label:
+            text: "Statistics Screen"
+
+<UploadScreen>:
+    name: 'upload'
+    BoxLayout:
+        Label:
+            text: "Upload Screen"
+
+<SettingsScreen>:
+    name: 'settings'
+    BoxLayout:
+        Label:
+            text: "Settings Screen"
