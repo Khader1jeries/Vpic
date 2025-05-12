@@ -1,0 +1,88 @@
+<ImgDescriptionScreen>:
+    name: 'img_description'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Add Image Details"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+
+        # Image preview
+        BoxLayout:
+            size_hint_y: None
+            height: '150dp'
+
+            Image:
+                id: image_preview
+                source: ''  # Will be set in Python code
+                allow_stretch: True
+                keep_ratio: True
+
+        # Image name (editable)
+        Label:
+            text: "Image Name:"
+            size_hint_y: None
+            height: '30dp'
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: image_name_input
+            text: ""  # Will be populated with original filename in Python
+            size_hint_y: None
+            height: '40dp'
+            multiline: False
+            required: True
+
+        # Description input
+        Label:
+            text: "Image Description:"
+            size_hint_y: None
+            height: '30dp'
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: description_input
+            hint_text: "Add a description for your image..."
+            size_hint_y: None
+            height: '120dp'
+            multiline: True
+
+        # Error message (initially empty)
+        Label:
+            id: error_message
+            text: ""
+            size_hint_y: None
+            height: '20dp'
+            color: 1, 0, 0, 1  # Red color for error
+            font_size: '14sp'
+
+        Widget:
+            # Spacer
+
+        # Navigation buttons
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Back"
+                size_hint_x: 0.3
+                background_color: 0.7, 0.7, 0.7, 1
+                background_normal: ''
+                on_press: root.go_back()
+
+            Button:
+                text: "Next: Add Tags"
+                size_hint_x: 0.7
+                background_color: 0.2, 0.6, 0.8, 1
+                background_normal: ''
+                on_press: root.save_and_continue()

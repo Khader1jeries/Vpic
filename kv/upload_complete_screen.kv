@@ -1,0 +1,38 @@
+<UploadCompleteScreen>:
+    name: 'upload_complete'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Upload Complete!"
+            font_size: '26sp'
+            size_hint_y: None
+            height: '60dp'
+
+        # Success icon
+        Image:
+            source: 'atlas://data/images/defaulttheme/checkbox_on'
+            size_hint: None, None
+            size: '100dp', '100dp'
+            pos_hint: {'center_x': 0.5}
+
+        Label:
+            id: upload_success_message
+            text: "Your image was successfully uploaded."
+            size_hint_y: None
+            height: '40dp'
+            font_size: '18sp'
+
+        Widget:
+            # Spacer
+
+        Button:
+            text: "Upload Another Image"
+            size_hint: None, None
+            size: '200dp', '50dp'
+            pos_hint: {'center_x': 0.5}
+            background_color: 0.2, 0.6, 0.8, 1
+            background_normal: ''
+            on_press: root.upload_another()

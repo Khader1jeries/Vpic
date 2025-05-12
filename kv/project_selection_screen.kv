@@ -1,0 +1,55 @@
+<ProjectSelectionScreen>:
+    name: 'project_selection'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Welcome to VPic"
+            font_size: '32sp'
+            size_hint_y: None
+            height: '60dp'
+
+        Label:
+            text: "Select an existing project or create a new one"
+            font_size: '18sp'
+            size_hint_y: None
+            height: '40dp'
+
+        # Projects list
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.6
+            padding: 10
+            spacing: 10
+
+            Label:
+                text: "Existing Projects:"
+                font_size: '20sp'
+                size_hint_y: None
+                height: '40dp'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+
+            # Scrollable list of projects
+            ScrollView:
+                BoxLayout:
+                    id: projects_container
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 10
+                    # Projects will be added here dynamically
+
+        # Create new project button
+        Button:
+            text: "Create New Project"
+            size_hint: None, None
+            size: '250dp', '60dp'
+            pos_hint: {'center_x': 0.5}
+            background_color: 0.2, 0.7, 0.3, 1
+            background_normal: ''
+            font_size: '18sp'
+            on_press: root.show_create_project_popup()

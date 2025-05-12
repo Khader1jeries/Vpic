@@ -1,0 +1,36 @@
+<UploadScreen>:
+    name: 'upload'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Upload Image"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+
+        # Upload area
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 20
+            padding: 20
+
+            Image:
+                source: 'atlas://data/images/defaulttheme/filechooser_folder'
+                size_hint: None, None
+                size: '150dp', '150dp'
+                pos_hint: {'center_x': 0.5}
+
+            Label:
+                text: "Select an image to upload"
+                font_size: '18sp'
+
+            Button:
+                text: "Browse Files"
+                size_hint_y: None
+                height: '50dp'
+                background_color: 0.2, 0.6, 0.8, 1
+                background_normal: ''
+                on_press: root.show_file_chooser()

@@ -1,0 +1,95 @@
+<ImgTagsScreen>:
+    name: 'img_tags'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Add Tags"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+
+        # Image preview
+        BoxLayout:
+            size_hint_y: None
+            height: '120dp'
+
+            Image:
+                id: image_preview
+                source: ''  # Will be set in Python code
+                allow_stretch: True
+                keep_ratio: True
+
+        # Image name
+        Label:
+            id: image_name
+            text: ""
+            size_hint_y: None
+            height: '30dp'
+            font_size: '16sp'
+
+        # Description display (read-only)
+        Label:
+            text: "Description:"
+            size_hint_y: None
+            height: '20dp'
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
+        Label:
+            id: description_display
+            text: ""  # Will be populated from app.image_description
+            size_hint_y: None
+            height: '60dp'
+            halign: 'left'
+            valign: 'top'
+            text_size: self.size
+
+        # Tags
+        Label:
+            text: "Tags (comma separated):"
+            size_hint_y: None
+            height: '30dp'
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: tags_input
+            hint_text: "nature, sunset, beach, ..."
+            size_hint_y: None
+            height: '40dp'
+            multiline: False
+
+        Label:
+            text: "Common tags: nature, portrait, landscape, urban, food, animals, travel, abstract"
+            size_hint_y: None
+            height: '30dp'
+            font_size: '12sp'
+            color: 0.5, 0.5, 0.5, 1
+
+        Widget:
+            # Spacer
+
+        # Navigation buttons
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Back"
+                size_hint_x: 0.3
+                background_color: 0.7, 0.7, 0.7, 1
+                background_normal: ''
+                on_press: root.go_back()
+
+            Button:
+                text: "Upload Image"
+                size_hint_x: 0.7
+                background_color: 0.2, 0.7, 0.3, 1
+                background_normal: ''
+                on_press: root.upload_image()
