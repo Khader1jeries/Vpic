@@ -5,24 +5,21 @@ from kivy.properties import StringProperty, ObjectProperty, BooleanProperty
 from kivy.clock import Clock
 import os
 
+# Import all screen classes needed by app.kv
+from components.project.project_selection.project_selection import ProjectSelectionScreen
+from components.home.home import HomeScreen
+from components.images.image_upload.image_upload import UploadScreen
+from components.images.image_description.image_description import ImgDescriptionScreen
+from components.images.image_tags.image_tags import ImgTagsScreen
+from components.images.image_upload.upload_complete.upload_complete import UploadCompleteScreen
+from components.albums.albums import AlbumsScreen
+from components.albums.create_album.create_album import CreateAlbumScreen
+from components.albums.album_view.album_view import AlbumViewScreen
+from components.images.image_view.image_view import ImageViewScreen
+from components.project.project_settings.project_settings import SettingsScreen
+
 # Load navigation component first
 Builder.load_file('components/core/navigation/navigation.kv')
-
-# These import paths will be used as we migrate to component structure
-# For each component we migrate, we'll update these imports
-# For now, we're still using the screen classes from the original structure
-
-# Project related components
-
-# Home screen
-
-# Image related components
-from components.images.image_upload import image_upload
-
-
-# Album related components
-
-# Settings
 
 
 # Placeholder screen classes (for screens you haven't implemented yet)
@@ -64,11 +61,8 @@ class PictureVotingApp(App):
         # Create necessary directories
         self.create_app_directories()
 
-        # Load components
+        # Load component KV files
         self.load_components()
-
-        # Load screens that haven't been migrated yet
-        self.load_kv_files()
 
         # Load the main kv file
         main_widget = Builder.load_file("app.kv")
@@ -79,37 +73,28 @@ class PictureVotingApp(App):
         return main_widget
 
     def load_components(self):
-        """Load KV files for the migrated components"""
+        """Load KV files for all components"""
         # Core components
         # Already loaded: navigation.kv
 
         # Project components
         Builder.load_file("components/project/project_selection/project_selection.kv")
+        Builder.load_file("components/project/project_settings/project_settings.kv")
 
-        # More components will be added here as they are migrated
+        # Home component
+        Builder.load_file("components/home/home.kv") if os.path.exists("components/home/home.kv") else None
 
-    def load_kv_files(self):
-        """Load all KV files for screens that haven't been migrated to components yet"""
-        kv_files = [
-            # project_selection.kv has been migrated to a component
-            # "kv/project_selection_screen.kv",
-            "kv/upload_screen.kv",
-            "kv/img_description_screen.kv",
-            "kv/img_tags_screen.kv",
-            "kv/upload_complete_screen.kv",
-            "kv/albums_screen.kv",
-            "kv/create_album_screen.kv",
-            "kv/album_view_screen.kv",
-            "kv/image_view_screen.kv",
-            "kv/settings_screen.kv"
-        ]
+        # Image components
+        Builder.load_file("components/images/image_upload/image_upload.kv")
+        Builder.load_file("components/images/image_description/image_description.kv")
+        Builder.load_file("components/images/image_tags/image_tags.kv")
+        Builder.load_file("components/images/image_upload/upload_complete/upload_complete.kv")
+        Builder.load_file("components/images/image_view/image_view.kv")
 
-        for kv_file in kv_files:
-            try:
-                Builder.load_file(kv_file)
-                print(f"Loaded {kv_file}")
-            except Exception as e:
-                print(f"Error loading {kv_file}: {e}")
+        # Album components
+        Builder.load_file("components/albums/albums.kv")
+        Builder.load_file("components/albums/create_album/create_album.kv")
+        Builder.load_file("components/albums/album_view/album_view.kv")
 
     def set_initial_screen(self, main_widget):
         """Set the initial screen after the app is fully loaded"""

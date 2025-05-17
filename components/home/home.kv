@@ -1,0 +1,15 @@
+#:kivy 2.0.0
+
+<HomeScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+
+        Label:
+            text: f"Home Screen - Current Project: {app.current_project}"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+
+        Widget:
+            # Content area
