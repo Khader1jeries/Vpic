@@ -1,0 +1,114 @@
+#:kivy 2.0.0
+
+<SettingsScreen>:
+    name: 'settings'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 20
+
+        # Screen title
+        Label:
+            text: "Settings"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+            halign: 'left'
+            text_size: self.width, None
+
+        # Project Management Section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '230dp'
+            padding: 15
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.3, 0.4, 0.1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10, 10, 10, 10]
+
+            Label:
+                text: "Project Management"
+                font_size: '20sp'
+                size_hint_y: None
+                height: '40dp'
+                halign: 'left'
+                text_size: self.width, None
+                bold: True
+
+            Label:
+                id: current_project_label
+                text: "Current Project: " + (app.current_project if app.current_project else "None")
+                size_hint_y: None
+                height: '30dp'
+                halign: 'left'
+                text_size: self.width, None
+
+            # Project management buttons
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: '50dp'
+                spacing: 10
+
+                Button:
+                    text: "Change Project"
+                    background_color: 0.3, 0.5, 0.7, 1
+                    background_normal: ''
+                    on_press: root.change_project()
+
+                Button:
+                    text: "Clear Project"
+                    background_color: 0.8, 0.4, 0.0, 1
+                    background_normal: ''
+                    on_press: root.clear_project()
+
+            # Delete project button with warning color
+            Button:
+                text: "Delete Project"
+                size_hint_y: None
+                height: '50dp'
+                background_color: 0.9, 0.2, 0.2, 1
+                background_normal: ''
+                on_press: root.delete_project()
+
+        # Import/Export Section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '150dp'
+            padding: 15
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0.2, 0.3, 0.4, 0.1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10, 10, 10, 10]
+
+            Label:
+                text: "Import/Export"
+                font_size: '20sp'
+                size_hint_y: None
+                height: '40dp'
+                halign: 'left'
+                text_size: self.width, None
+                bold: True
+
+            # Import project button
+            Button:
+                text: "Import Project from Folder"
+                size_hint_y: None
+                height: '50dp'
+                background_color: 0.3, 0.7, 0.3, 1
+                background_normal: ''
+                on_press: root.import_project()
+
+        # Spacer
+        Widget:
+            # Fills remaining space

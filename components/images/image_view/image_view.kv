@@ -1,0 +1,174 @@
+#:kivy 2.0.0
+
+<ImageViewScreen>:
+    name: 'image_view'
+    BoxLayout:
+        id: main_container
+        orientation: 'vertical'
+        padding: 15
+        spacing: 10
+
+        # Header with back button and image title
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "< Back to Album"
+                size_hint_x: 0.3
+                background_color: 0.3, 0.5, 0.7, 1
+                background_normal: ''
+                on_press: root.go_back()
+
+            Label:
+                id: image_title
+                text: root.image_name
+                font_size: '20sp'
+                size_hint_x: 0.7
+                halign: 'left'
+                text_size: self.width, None
+                bold: True
+
+        # Image display area
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 5
+            canvas.before:
+                Color:
+                    rgba: 0.9, 0.9, 0.9, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Image:
+                id: image_display
+                source: root.image_path
+                allow_stretch: True
+                keep_ratio: True
+
+        # Image metadata area
+        ScrollView:
+            BoxLayout:
+                id: metadata_container
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: 10
+                spacing: 15
+
+                # Description section
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 5
+
+                    Label:
+                        text: "Description:"
+                        font_size: '18sp'
+                        bold: True
+                        size_hint_y: None
+                        height: '30dp'
+                        halign: 'left'
+                        text_size: self.width, None
+                        color: 0.2, 0.2, 0.2, 1
+
+                    Label:
+                        id: image_description_text
+                        text: root.image_description
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: self.texture_size[1] + 10
+                        halign: 'left'
+                        valign: 'top'
+                        color: 0.3, 0.3, 0.3, 1
+
+                # Tags section
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 5
+
+                    Label:
+                        text: "Tags:"
+                        font_size: '18sp'
+                        bold: True
+                        size_hint_y: None
+                        height: '30dp'
+                        halign: 'left'
+                        text_size: self.width, None
+                        color: 0.2, 0.2, 0.2, 1
+
+                    Label:
+                        id: image_tags_text
+                        text: root.image_tags
+                        text_size: self.width, None
+                        size_hint_y: None
+                        height: self.texture_size[1] + 10
+                        halign: 'left'
+                        valign: 'top'
+                        color: 0.3, 0.3, 0.3, 1
+
+                # Additional info section
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 5
+
+                    Label:
+                        text: "Additional Information:"
+                        font_size: '18sp'
+                        bold: True
+                        size_hint_y: None
+                        height: '30dp'
+                        halign: 'left'
+                        text_size: self.width, None
+                        color: 0.2, 0.2, 0.2, 1
+
+                    # Album
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint_y: None
+                        height: '25dp'
+
+                        Label:
+                            text: "Album:"
+                            bold: True
+                            size_hint_x: 0.3
+                            halign: 'left'
+                            text_size: self.width, None
+                            color: 0.3, 0.3, 0.3, 1
+
+                        Label:
+                            id: image_album_text
+                            text: root.album_name
+                            size_hint_x: 0.7
+                            halign: 'left'
+                            text_size: self.width, None
+                            color: 0.3, 0.3, 0.3, 1
+
+                    # Upload date
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint_y: None
+                        height: '25dp'
+
+                        Label:
+                            text: "Upload Date:"
+                            bold: True
+                            size_hint_x: 0.3
+                            halign: 'left'
+                            text_size: self.width, None
+                            color: 0.3, 0.3, 0.3, 1
+
+                        Label:
+                            id: image_date_text
+                            text: root.upload_date
+                            size_hint_x: 0.7
+                            halign: 'left'
+                            text_size: self.width, None
+                            color: 0.3, 0.3, 0.3, 1

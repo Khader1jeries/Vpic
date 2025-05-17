@@ -5,7 +5,12 @@ from kivy.properties import StringProperty, ObjectProperty, BooleanProperty
 from kivy.clock import Clock
 import os
 
-# Import screen classes
+# Load navigation component first
+Builder.load_file('components/core/navigation/navigation.kv')
+from components.core.navigation.navigation import NavigationComponent
+
+# Import screen classes - these would eventually move to components too
+# These import paths would change as you migrate to component structure
 from screens.project_selection_screen import ProjectSelectionScreen
 from screens.upload_screen import UploadScreen
 from screens.img_description_screen import ImgDescriptionScreen
@@ -13,6 +18,10 @@ from screens.img_tags_screen import ImgTagsScreen
 from screens.upload_complete_screen import UploadCompleteScreen
 from screens.albums_screen import AlbumsScreen
 from screens.home_screen import HomeScreen
+from screens.create_album_screen import CreateAlbumScreen
+from screens.album_view_screen import AlbumViewScreen
+from screens.image_view_screen import ImageViewScreen
+from screens.settings_screen import SettingsScreen
 
 
 # Placeholder screen classes (for screens you haven't implemented yet)
@@ -20,9 +29,6 @@ class VotingScreen(Screen): pass
 
 
 class StatisticsScreen(Screen): pass
-
-
-class SettingsScreen(Screen): pass
 
 
 class PictureVotingApp(App):
@@ -36,6 +42,12 @@ class PictureVotingApp(App):
     current_project = StringProperty("")
     current_project_path = StringProperty("")
 
+    # Album property for passing between screens
+    current_album = StringProperty("")
+
+    # Image property for passing between screens
+    current_image = StringProperty("")
+
     # Flag to track if user can navigate freely
     has_project = BooleanProperty(False)
 
@@ -44,12 +56,15 @@ class PictureVotingApp(App):
     batch_current = StringProperty("0")
     batch_total = StringProperty("0")
 
+    # Reference to navigation component
+    navigation = ObjectProperty(None)
+
     def build(self):
         # Create necessary directories
         self.create_app_directories()
 
         # Load all kv files
-        # Make sure all KV files are loaded properly
+        # This will eventually be replaced with loading individual component kv files
         try:
             Builder.load_file("kv/project_selection_screen.kv")
             print("Loaded project_selection_screen.kv")
@@ -86,8 +101,33 @@ class PictureVotingApp(App):
         except Exception as e:
             print(f"Error loading albums_screen.kv: {e}")
 
-        # Load the main kv file last so it can access all defined screens
-        main_widget = Builder.load_file("kv/main.kv")
+        # Load the new screens
+        try:
+            Builder.load_file("kv/create_album_screen.kv")
+            print("Loaded create_album_screen.kv")
+        except Exception as e:
+            print(f"Error loading create_album_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/album_view_screen.kv")
+            print("Loaded album_view_screen.kv")
+        except Exception as e:
+            print(f"Error loading album_view_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/image_view_screen.kv")
+            print("Loaded image_view_screen.kv")
+        except Exception as e:
+            print(f"Error loading image_view_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/settings_screen.kv")
+            print("Loaded settings_screen.kv")
+        except Exception as e:
+            print(f"Error loading settings_screen.kv: {e}")
+
+        # Load the updated main kv file
+        main_widget = Builder.load_file("app.kv")
 
         # Schedule setting the initial screen after the app is fully initialized
         Clock.schedule_once(lambda dt: self.set_initial_screen(main_widget), 0.1)

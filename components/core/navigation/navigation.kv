@@ -1,0 +1,134 @@
+#:kivy 2.0.0
+
+<NavigationComponent>:
+    orientation: 'vertical'
+    size_hint_x: None
+    width: "150dp"
+    spacing: "10dp"
+    padding: "10dp"
+    canvas.before:
+        Color:
+            rgba: 0.2, 0.3, 0.4, 1  # Dark blue-gray color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    # App title (always visible)
+    Label:
+        text: "VPic"
+        size_hint_y: None
+        height: "50dp"
+        font_size: "24sp"
+        bold: True
+        color: 1, 1, 1, 1
+
+    # Project name (always visible)
+    Label:
+        text: root.current_project if root.current_project else "No Project Selected"
+        size_hint_y: None
+        height: "30dp"
+        font_size: "14sp"
+        color: 0.9, 0.9, 0.9, 1
+
+    # Navigation buttons - only visible when a project is selected
+    BoxLayout:
+        id: project_nav
+        orientation: 'vertical'
+        spacing: "10dp"
+        opacity: 1 if root.has_project else 0
+        height: 0 if not root.has_project else self.minimum_height
+        size_hint_y: None if not root.has_project else 1
+        disabled: not root.has_project
+
+        Button:
+            text: "Home"
+            background_color: 0.3, 0.4, 0.5, 1
+            background_normal: ''
+            on_press: root.navigate_to('home')
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+        Button:
+            text: "Voting"
+            background_color: 0.3, 0.4, 0.5, 1
+            background_normal: ''
+            on_press: root.navigate_to('voting')
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+        Button:
+            text: "Albums"
+            background_color: 0.3, 0.4, 0.5, 1
+            background_normal: ''
+            on_press: root.navigate_to('albums')
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+        Button:
+            text: "Statistics"
+            background_color: 0.3, 0.4, 0.5, 1
+            background_normal: ''
+            on_press: root.navigate_to('statistics')
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+        Button:
+            text: "Upload"
+            background_color: 0.3, 0.4, 0.5, 1
+            background_normal: ''
+            on_press: root.navigate_to('upload')
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+        Button:
+            text: "Settings"
+            background_color: 0.3, 0.4, 0.5, 1
+            background_normal: ''
+            on_press: root.navigate_to('settings')
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+
+        Widget:
+            # Spacer
+            size_hint_y: 1
+
+    # Content shown when no project is selected
+    BoxLayout:
+        id: no_project_content
+        orientation: 'vertical'
+        opacity: 0 if root.has_project else 1
+        height: 0 if root.has_project else self.minimum_height
+        size_hint_y: None
+        disabled: root.has_project
+
+        Label:
+            text: "Please select or create a project to get started"
+            size_hint_y: None
+            height: "80dp"
+            text_size: self.width, None
+            halign: 'center'
+            valign: 'middle'
+
+        Button:
+            text: "Select Project"
+            background_color: 0.3, 0.5, 0.7, 1
+            background_normal: ''
+            size_hint_y: None
+            height: "45dp"
+            font_size: "16sp"
+            on_press: root.navigate_to('project_selection')
+
+        Widget:
+            # Spacer
+            size_hint_y: 1
+
+    # Project management button (always visible)
+    Button:
+        text: "Change Project" if root.has_project else "Select Project"
+        background_color: 0.4, 0.4, 0.5, 1
+        background_normal: ''
+        on_press: root.change_project()
+        size_hint_y: None
+        height: "45dp"
+        font_size: "14sp"

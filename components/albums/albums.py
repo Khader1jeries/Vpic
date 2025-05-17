@@ -117,15 +117,30 @@ class AlbumsScreen(Screen):
                 background_normal='',
                 background_color=(0.3, 0.5, 0.7, 1) if album == self.current_album else (0.5, 0.5, 0.5, 1)
             )
-            btn.bind(on_press=lambda instance, a=album: self.select_album(a))
+            # Modify the button binding to open the album view screen
+            btn.bind(on_press=lambda instance, a=album: self.view_album(a))
             albums_container.add_widget(btn)
 
     def select_album(self, album_name):
-        """Select an album to display its images"""
+        """Select an album to display its images in the current screen"""
         Logger.info(f"AlbumsScreen: Selected album {album_name}")
         self.current_album = album_name
         self.update_albums_ui()  # Update highlighting
         self.load_album_images(album_name)
+
+    def view_album(self, album_name):
+        """Open the album view screen for the selected album"""
+        Logger.info(f"AlbumsScreen: Opening album view for {album_name}")
+
+        # Store the selected album name in the app for access from album view screen
+        app = App.get_running_app()
+        app.current_album = album_name
+
+        # Navigate to album view screen
+        if self.manager:
+            self.manager.current = 'album_view'
+        else:
+            Logger.error("AlbumsScreen: No screen manager found")
 
     def load_album_images(self, album_name):
         """Load and display images from the selected album"""
@@ -246,100 +261,9 @@ class AlbumsScreen(Screen):
         images_grid.add_widget(label)
 
     def create_new_album(self):
-        """Show dialog to create a new album"""
-        from kivy.uix.popup import Popup
-        from kivy.uix.boxlayout import BoxLayout
-        from kivy.uix.textinput import TextInput
-
-        # Create content for the popup
-        content = BoxLayout(orientation='vertical', spacing=10, padding=10)
-
-        # Album name input
-        content.add_widget(Label(text="Album Name:", size_hint_y=None, height=30))
-        album_name_input = TextInput(multiline=False, size_hint_y=None, height=40)
-        content.add_widget(album_name_input)
-
-        # Album description input
-        content.add_widget(Label(text="Description (optional):", size_hint_y=None, height=30))
-        album_desc_input = TextInput(multiline=True, size_hint_y=None, height=80)
-        content.add_widget(album_desc_input)
-
-        # Error message label
-        error_label = Label(text="", color=(1, 0, 0, 1), size_hint_y=None, height=30)
-        content.add_widget(error_label)
-
-        # Buttons
-        buttons = BoxLayout(size_hint_y=None, height=50, spacing=10)
-        cancel_btn = Button(text="Cancel")
-        create_btn = Button(text="Create Album", background_color=(0.2, 0.6, 0.2, 1))
-        buttons.add_widget(cancel_btn)
-        buttons.add_widget(create_btn)
-        content.add_widget(buttons)
-
-        # Create popup
-        popup = Popup(title="Create New Album", content=content, size_hint=(0.8, 0.5))
-
-        # Button bindings
-        cancel_btn.bind(on_press=popup.dismiss)
-        create_btn.bind(on_press=lambda x: self._create_album(
-            album_name_input.text, album_desc_input.text, error_label, popup))
-
-        # Show popup
-        popup.open()
-
-    def _create_album(self, name, description, error_label, popup):
-        """Create a new album with the given name and description"""
-        if not name or not name.strip():
-            error_label.text = "Album name is required"
-            return
-
-        # Clean the album name (replace spaces with underscores for filename)
-        clean_name = name.strip()
-        filename = clean_name.replace(' ', '_') + '.json'
-
-        # Get app reference
-        app = App.get_running_app()
-        if not hasattr(app, 'current_project_path') or not app.current_project_path:
-            error_label.text = "No project selected"
-            return
-
-        # Path to albums metadata directory
-        albums_meta_dir = os.path.join(app.current_project_path, "albums_metadata")
-        if not os.path.exists(albums_meta_dir):
-            try:
-                os.makedirs(albums_meta_dir)
-            except Exception as e:
-                error_label.text = f"Error creating albums directory: {str(e)}"
-                return
-
-        # Check if album already exists
-        album_path = os.path.join(albums_meta_dir, filename)
-        if os.path.exists(album_path):
-            error_label.text = f"Album '{clean_name}' already exists"
-            return
-
-        # Create the album metadata
-        try:
-            album_data = {
-                "name": clean_name,
-                "description": description.strip(),
-                "created_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "images": []
-            }
-
-            with open(album_path, 'w') as f:
-                json.dump(album_data, f, indent=4)
-
-            Logger.info(f"AlbumsScreen: Created new album: {clean_name}")
-
-            # Close the popup
-            popup.dismiss()
-
-            # Refresh the albums list and select the new album
-            self.load_albums()
-            self.current_album = clean_name
-            self.load_album_images(clean_name)
-
-        except Exception as e:
-            error_label.text = f"Error creating album: {str(e)}"
-            Logger.error(f"AlbumsScreen: Error creating album: {str(e)}")
+        """Navigate to the create album screen"""
+        Logger.info("AlbumsScreen: create_new_album called")
+        if self.manager:
+            self.manager.current = 'create_album'
+        else:
+            Logger.error("AlbumsScreen: No screen manager found")

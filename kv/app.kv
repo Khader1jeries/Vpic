@@ -1,0 +1,77 @@
+#:kivy 2.0.0
+#:import NavigationComponent components.core.navigation.navigation.NavigationComponent
+
+BoxLayout:
+    orientation: 'horizontal'
+
+    # Navigation sidebar - now using the component
+    NavigationComponent:
+        id: navigation
+        screen_manager: screen_manager
+
+    # Main content area
+    ScreenManager:
+        id: screen_manager
+
+        ProjectSelectionScreen:
+            name: 'project_selection'
+
+        HomeScreen:
+            name: 'home'
+
+        VotingScreen:
+            name: 'voting'
+
+        AlbumsScreen:
+            name: 'albums'
+
+        StatisticsScreen:
+            name: 'statistics'
+
+        UploadScreen:
+            name: 'upload'
+
+        ImgDescriptionScreen:
+            name: 'img_description'
+
+        ImgTagsScreen:
+            name: 'img_tags'
+
+        UploadCompleteScreen:
+            name: 'upload_complete'
+
+        SettingsScreen:
+            name: 'settings'
+
+        CreateAlbumScreen:
+            name: 'create_album'
+
+        AlbumViewScreen:
+            name: 'album_view'
+
+        ImageViewScreen:
+            name: 'image_view'
+
+<HomeScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+
+        Label:
+            text: f"Home Screen - Current Project: {app.current_project}"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '50dp'
+
+        Widget:
+            # Content area
+
+<VotingScreen>:
+    BoxLayout:
+        Label:
+            text: "Voting Screen"
+
+<StatisticsScreen>:
+    BoxLayout:
+        Label:
+            text: "Statistics Screen"

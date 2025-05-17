@@ -1,0 +1,79 @@
+#:kivy 2.0.0
+
+<CreateAlbumScreen>:
+    name: 'create_album'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: "Create New Album"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+
+        # Album name input
+        Label:
+            text: "Album Name:"
+            size_hint_y: None
+            height: '30dp'
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: album_name_input
+            hint_text: "Enter album name..."
+            size_hint_y: None
+            height: '40dp'
+            multiline: False
+            required: True
+
+        # Album description input
+        Label:
+            text: "Album Description (optional):"
+            size_hint_y: None
+            height: '30dp'
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
+        TextInput:
+            id: album_description_input
+            hint_text: "Add a description for your album..."
+            size_hint_y: None
+            height: '120dp'
+            multiline: True
+
+        # Error message (initially empty)
+        Label:
+            id: error_message
+            text: ""
+            size_hint_y: None
+            height: '30dp'
+            color: 1, 0, 0, 1  # Red color for error
+            font_size: '14sp'
+
+        Widget:
+            # Spacer
+
+        # Navigation buttons
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+
+            Button:
+                text: "Cancel"
+                size_hint_x: 0.3
+                background_color: 0.7, 0.7, 0.7, 1
+                background_normal: ''
+                on_press: root.cancel()
+
+            Button:
+                text: "Create Album"
+                size_hint_x: 0.7
+                background_color: 0.2, 0.7, 0.3, 1
+                background_normal: ''
+                on_press: root.create_album()
