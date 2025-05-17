@@ -1,5 +1,5 @@
 from kivy.app import App
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import StringProperty, ObjectProperty, BooleanProperty
 from kivy.clock import Clock
@@ -7,21 +7,22 @@ import os
 
 # Load navigation component first
 Builder.load_file('components/core/navigation/navigation.kv')
-from components.core.navigation.navigation import NavigationComponent
 
-# Import screen classes - these would eventually move to components too
-# These import paths would change as you migrate to component structure
-from screens.project_selection_screen import ProjectSelectionScreen
-from screens.upload_screen import UploadScreen
-from screens.img_description_screen import ImgDescriptionScreen
-from screens.img_tags_screen import ImgTagsScreen
-from screens.upload_complete_screen import UploadCompleteScreen
-from screens.albums_screen import AlbumsScreen
-from screens.home_screen import HomeScreen
-from screens.create_album_screen import CreateAlbumScreen
-from screens.album_view_screen import AlbumViewScreen
-from screens.image_view_screen import ImageViewScreen
-from screens.settings_screen import SettingsScreen
+# These import paths will be used as we migrate to component structure
+# For each component we migrate, we'll update these imports
+# For now, we're still using the screen classes from the original structure
+
+# Project related components
+
+# Home screen
+
+# Image related components
+from components.images.image_upload import image_upload
+
+
+# Album related components
+
+# Settings
 
 
 # Placeholder screen classes (for screens you haven't implemented yet)
@@ -63,76 +64,52 @@ class PictureVotingApp(App):
         # Create necessary directories
         self.create_app_directories()
 
-        # Load all kv files
-        # This will eventually be replaced with loading individual component kv files
-        try:
-            Builder.load_file("kv/project_selection_screen.kv")
-            print("Loaded project_selection_screen.kv")
-        except Exception as e:
-            print(f"Error loading project_selection_screen.kv: {e}")
+        # Load components
+        self.load_components()
 
-        try:
-            Builder.load_file("kv/upload_screen.kv")
-            print("Loaded upload_screen.kv")
-        except Exception as e:
-            print(f"Error loading upload_screen.kv: {e}")
+        # Load screens that haven't been migrated yet
+        self.load_kv_files()
 
-        try:
-            Builder.load_file("kv/img_description_screen.kv")
-            print("Loaded img_description_screen.kv")
-        except Exception as e:
-            print(f"Error loading img_description_screen.kv: {e}")
-
-        try:
-            Builder.load_file("kv/img_tags_screen.kv")
-            print("Loaded img_tags_screen.kv")
-        except Exception as e:
-            print(f"Error loading img_tags_screen.kv: {e}")
-
-        try:
-            Builder.load_file("kv/upload_complete_screen.kv")
-            print("Loaded upload_complete_screen.kv")
-        except Exception as e:
-            print(f"Error loading upload_complete_screen.kv: {e}")
-
-        try:
-            Builder.load_file("kv/albums_screen.kv")
-            print("Loaded albums_screen.kv")
-        except Exception as e:
-            print(f"Error loading albums_screen.kv: {e}")
-
-        # Load the new screens
-        try:
-            Builder.load_file("kv/create_album_screen.kv")
-            print("Loaded create_album_screen.kv")
-        except Exception as e:
-            print(f"Error loading create_album_screen.kv: {e}")
-
-        try:
-            Builder.load_file("kv/album_view_screen.kv")
-            print("Loaded album_view_screen.kv")
-        except Exception as e:
-            print(f"Error loading album_view_screen.kv: {e}")
-
-        try:
-            Builder.load_file("kv/image_view_screen.kv")
-            print("Loaded image_view_screen.kv")
-        except Exception as e:
-            print(f"Error loading image_view_screen.kv: {e}")
-
-        try:
-            Builder.load_file("kv/settings_screen.kv")
-            print("Loaded settings_screen.kv")
-        except Exception as e:
-            print(f"Error loading settings_screen.kv: {e}")
-
-        # Load the updated main kv file
+        # Load the main kv file
         main_widget = Builder.load_file("app.kv")
 
         # Schedule setting the initial screen after the app is fully initialized
         Clock.schedule_once(lambda dt: self.set_initial_screen(main_widget), 0.1)
 
         return main_widget
+
+    def load_components(self):
+        """Load KV files for the migrated components"""
+        # Core components
+        # Already loaded: navigation.kv
+
+        # Project components
+        Builder.load_file("components/project/project_selection/project_selection.kv")
+
+        # More components will be added here as they are migrated
+
+    def load_kv_files(self):
+        """Load all KV files for screens that haven't been migrated to components yet"""
+        kv_files = [
+            # project_selection.kv has been migrated to a component
+            # "kv/project_selection_screen.kv",
+            "kv/upload_screen.kv",
+            "kv/img_description_screen.kv",
+            "kv/img_tags_screen.kv",
+            "kv/upload_complete_screen.kv",
+            "kv/albums_screen.kv",
+            "kv/create_album_screen.kv",
+            "kv/album_view_screen.kv",
+            "kv/image_view_screen.kv",
+            "kv/settings_screen.kv"
+        ]
+
+        for kv_file in kv_files:
+            try:
+                Builder.load_file(kv_file)
+                print(f"Loaded {kv_file}")
+            except Exception as e:
+                print(f"Error loading {kv_file}: {e}")
 
     def set_initial_screen(self, main_widget):
         """Set the initial screen after the app is fully loaded"""
