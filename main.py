@@ -11,16 +11,12 @@ from screens.upload_screen import UploadScreen
 from screens.img_description_screen import ImgDescriptionScreen
 from screens.img_tags_screen import ImgTagsScreen
 from screens.upload_complete_screen import UploadCompleteScreen
+from screens.albums_screen import AlbumsScreen
+from screens.home_screen import HomeScreen
 
 
-# Placeholder screen classes
-class HomeScreen(Screen): pass
-
-
+# Placeholder screen classes (for screens you haven't implemented yet)
 class VotingScreen(Screen): pass
-
-
-class AlbumsScreen(Screen): pass
 
 
 class StatisticsScreen(Screen): pass
@@ -43,16 +39,52 @@ class PictureVotingApp(App):
     # Flag to track if user can navigate freely
     has_project = BooleanProperty(False)
 
+    # Batch processing flags
+    batch_processing = BooleanProperty(False)
+    batch_current = StringProperty("0")
+    batch_total = StringProperty("0")
+
     def build(self):
         # Create necessary directories
         self.create_app_directories()
 
         # Load all kv files
-        Builder.load_file("kv/project_selection_screen.kv")
-        Builder.load_file("kv/upload_screen.kv")
-        Builder.load_file("kv/img_description_screen.kv")
-        Builder.load_file("kv/img_tags_screen.kv")
-        Builder.load_file("kv/upload_complete_screen.kv")
+        # Make sure all KV files are loaded properly
+        try:
+            Builder.load_file("kv/project_selection_screen.kv")
+            print("Loaded project_selection_screen.kv")
+        except Exception as e:
+            print(f"Error loading project_selection_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/upload_screen.kv")
+            print("Loaded upload_screen.kv")
+        except Exception as e:
+            print(f"Error loading upload_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/img_description_screen.kv")
+            print("Loaded img_description_screen.kv")
+        except Exception as e:
+            print(f"Error loading img_description_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/img_tags_screen.kv")
+            print("Loaded img_tags_screen.kv")
+        except Exception as e:
+            print(f"Error loading img_tags_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/upload_complete_screen.kv")
+            print("Loaded upload_complete_screen.kv")
+        except Exception as e:
+            print(f"Error loading upload_complete_screen.kv: {e}")
+
+        try:
+            Builder.load_file("kv/albums_screen.kv")
+            print("Loaded albums_screen.kv")
+        except Exception as e:
+            print(f"Error loading albums_screen.kv: {e}")
 
         # Load the main kv file last so it can access all defined screens
         main_widget = Builder.load_file("kv/main.kv")
@@ -102,6 +134,31 @@ class PictureVotingApp(App):
         projects_dir = os.path.join(data_dir, 'projects')
         if not os.path.exists(projects_dir):
             os.makedirs(projects_dir)
+
+    def process_next_batch_image(self):
+        """Process the next image in the batch queue"""
+        # Get a reference to the upload screen
+        upload_screen = None
+        for screen in self.root.ids.screen_manager.screens:
+            if isinstance(screen, UploadScreen):
+                upload_screen = screen
+                break
+
+        if not upload_screen or not upload_screen.image_queue:
+            # No more images in queue, go to upload complete
+            self.root.ids.screen_manager.current = 'upload_complete'
+            return
+
+        # Get the next image
+        self.selected_file = upload_screen.image_queue.pop(0)
+        self.image_name = ""  # Reset name for the new image
+        self.image_description = ""  # Reset description for the new image
+
+        # Update batch count
+        self.batch_current = str(int(self.batch_current) + 1)
+
+        # Go to description screen for this image
+        self.root.ids.screen_manager.current = 'img_description'
 
 
 if __name__ == '__main__':

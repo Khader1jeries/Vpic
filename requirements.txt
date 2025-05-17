@@ -1,0 +1,4 @@
+# requirements.txt
+kivy==2.2.1
+plyer==2.1.0  # For native file dialog access
+pillow==10.0.0  # For image handling

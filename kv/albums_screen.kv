@@ -1,0 +1,80 @@
+#:kivy 2.0.0
+
+<AlbumsScreen>:
+    name: 'albums'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        # Screen title
+        Label:
+            text: "Albums"
+            font_size: '24sp'
+            size_hint_y: None
+            height: '40dp'
+
+        # Horizontal albums list at the top
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '100dp'
+            padding: 5
+            spacing: 5
+            canvas.before:
+                Color:
+                    rgba: 0.9, 0.9, 0.9, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "Your Albums"
+                font_size: '18sp'
+                size_hint_y: None
+                height: '30dp'
+                color: 0.2, 0.2, 0.2, 1
+
+            ScrollView:
+                do_scroll_y: False  # Only scroll horizontally
+                do_scroll_x: True
+                bar_width: 5
+                BoxLayout:
+                    id: albums_container
+                    orientation: 'horizontal'  # Horizontal layout
+                    size_hint_x: None
+                    width: self.minimum_width  # Allow width to expand as needed
+                    spacing: 10
+                    padding: 5
+                    # Album buttons will be added here dynamically
+
+        # Album title and create button
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '40dp'
+
+            Label:
+                text: root.current_album or "No Album Selected"
+                font_size: '20sp'
+                size_hint_x: 0.7
+                text_size: self.width, None
+                halign: 'left'
+
+            Button:
+                text: "Create New Album"
+                size_hint_x: 0.3
+                background_color: 0.3, 0.6, 0.3, 1
+                background_normal: ''
+                on_press: root.create_new_album()
+
+        # Images grid (main content area)
+        ScrollView:
+            GridLayout:
+                id: images_grid
+                cols: 3  # Show 3 images per row
+                spacing: 10
+                padding: 10
+                size_hint_y: None
+                height: self.minimum_height
+                # Images will be added here dynamically

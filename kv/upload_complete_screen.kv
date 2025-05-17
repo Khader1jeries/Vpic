@@ -1,3 +1,5 @@
+#:kivy 2.0.0
+
 <UploadCompleteScreen>:
     name: 'upload_complete'
     BoxLayout:
@@ -6,6 +8,7 @@
         spacing: 15
 
         Label:
+            id: upload_complete_title
             text: "Upload Complete!"
             font_size: '26sp'
             size_hint_y: None
@@ -24,6 +27,9 @@
             size_hint_y: None
             height: '40dp'
             font_size: '18sp'
+            halign: 'center'
+            valign: 'middle'
+            text_size: self.width, None
 
         Widget:
             # Spacer
@@ -36,3 +42,12 @@
             background_color: 0.2, 0.6, 0.8, 1
             background_normal: ''
             on_press: root.upload_another()
+
+        Button:
+            text: "View in Albums"
+            size_hint: None, None
+            size: '200dp', '50dp'
+            pos_hint: {'center_x': 0.5}
+            background_color: 0.2, 0.8, 0.6, 1
+            background_normal: ''
+            on_press: root.manager.current = 'albums'
